@@ -12,11 +12,8 @@ const Domain = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisible(true);
-          } else {
-            setVisible(false);
-          }
+          if (entry.isIntersecting) setVisible(true);
+          else setVisible(false);
         });
       },
       { threshold: 0.3 }
@@ -37,14 +34,14 @@ const Domain = () => {
       <div className="relative max-w-6xl mx-auto text-center transition-all duration-1000">
         <h1
           className={`text-3xl md:text-5xl mb-8 font-black transition-all duration-1000 ${
-            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            visible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-10 scale-90"
           }`}
         >
           Our Domains
         </h1>
         <p
           className={`text-gray-300 mb-12 max-w-6xl text-[19px] mx-auto transition-all duration-1000 delay-200 ${
-            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            visible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-10 scale-90"
           }`}
         >
           Dive into the world of our club and explore the Tech, Sponsoring, and
@@ -62,8 +59,8 @@ const Domain = () => {
               shadow-[0_0_12px_2px_rgba(255,0,0,0.45)]
               ${
                 visible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-10"
+                  ? "opacity-100 translate-y-0 scale-100"
+                  : "opacity-0 translate-y-10 scale-90"
               }`}
           >
             <img
@@ -90,8 +87,8 @@ const Domain = () => {
               shadow-[0_0_12px_2px_rgba(255,0,0,0.45)] delay-200
               ${
                 visible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-10"
+                  ? "opacity-100 translate-y-0 scale-100"
+                  : "opacity-0 translate-y-10 scale-90"
               }`}
           >
             <img
@@ -117,8 +114,8 @@ const Domain = () => {
               shadow-[0_0_12px_2px_rgba(255,0,0,0.45)] delay-400
               ${
                 visible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-10"
+                  ? "opacity-100 translate-y-0 scale-100"
+                  : "opacity-0 translate-y-10 scale-90"
               }`}
           >
             <img

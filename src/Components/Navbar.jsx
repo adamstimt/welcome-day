@@ -15,7 +15,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // ✅ Use section IDs instead of file paths
   const links = [
     { name: "Home", href: "#hero" },
     { name: "Events", href: "#events" },
@@ -24,7 +23,6 @@ export default function Navbar() {
     { name: "About us", href: "#about" },
   ];
 
-  // ✅ Smooth scroll function
   const handleScrollTo = (href) => {
     const section = document.querySelector(href);
     if (section) {
@@ -36,14 +34,14 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-500 ${
-        isScrolled ? "mt-0" : "mt-10"
+        isScrolled ? "mt-0" : "mt-[1.5rem]" // 
       }`}
     >
       <div
-        className={`flex items-center justify-between bg-black/80 backdrop-blur-md text-gray-300 px-6 md:px-16 py-3 border border-gray-500/40 transition-all duration-500 ${
+        className={`flex items-center justify-between bg-black/80 backdrop-blur-md text-gray-300 px-[1.5rem] md:px-[3rem] py-[1.2rem] border border-gray-500/40 transition-all duration-500 ${
           isScrolled
             ? "w-full rounded-none shadow-lg shadow-black/70"
-            : "w-[90%] md:w-[60%] max-w-5xl rounded-full"
+            : "w-[92%] md:w-[65%] max-w-[80rem] rounded-full"
         }`}
       >
         {/* ✅ Logo */}
@@ -51,11 +49,11 @@ export default function Navbar() {
           src={miniitc}
           loading="lazy"
           alt="ITC logo"
-          className="w-10 h-[60px] object-cover"
+          className="w-[2.5rem] h-[2.5rem] object-contain select-none" // 🧩 ثبّتنا الحجم بنسب من rem
         />
 
         {/* ✅ Desktop Links */}
-        <div className="hidden md:flex items-center space-x-10 text-base lg:text-lg">
+        <div className="hidden md:flex items-center gap-[2rem] text-[clamp(0.9rem,1.1vw,1.1rem)]">
           {links.map((link) => (
             <button
               key={link.name}
@@ -78,7 +76,7 @@ export default function Navbar() {
 
       {/* ✅ Mobile Dropdown Menu */}
       <div
-        className={`absolute top-[72px] left-0 right-0 bg-black/90 backdrop-blur-lg border-t border-gray-700/30 flex flex-col items-center gap-6 py-6 text-lg text-gray-300 transition-all duration-500 md:hidden ${
+        className={`absolute top-[4.5rem] left-0 right-0 bg-black/90 backdrop-blur-lg border-t border-gray-700/30 flex flex-col items-center gap-6 py-6 text-lg text-gray-300 transition-all duration-500 md:hidden ${
           menuOpen
             ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 -translate-y-5 pointer-events-none"

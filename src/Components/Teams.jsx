@@ -49,10 +49,7 @@ const Teams = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setVisible(true);
-          else setVisible(false);
-        });
+        entries.forEach((entry) => setVisible(entry.isIntersecting));
       },
       { threshold: 0.3 }
     );
@@ -95,35 +92,32 @@ const Teams = () => {
 
           <div
             className={`flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 transition-all duration-1000 ${
-              visible ? "opacity-100 scale-100" : "opacity-0 scale-90"
+              visible ? "opacity-100" : "opacity-0"
             }`}
           >
             {getCurrentCards().map((team, i) => (
-              <div
-                key={i}
-                className="relative h-[320px] md:h-[280px] text-white rounded-3xl p-6 md:p-8 
-              flex flex-col items-center text-center cursor-pointer 
-              border border-red-700/60 bg-[#2f1b1b] transition-all duration-700 hover:scale-105"
-              >
+              <div key={i} className="overflow-hidden rounded-3xl"> {/* هنا الجديد */}
                 <div
-                  className="absolute inset-0 rounded-3xl pointer-events-none 
-                  before:content-[''] before:absolute before:inset-0 
-                  before:rounded-3xl before:shadow-[inset_0_0_12px_rgba(255,0,0,0.25)]"
-                ></div>
-
-                <img
-                  src={team.img}
-                  loading="lazy"
-                  alt={team.title}
-                  className="w-20 h-20 md:w-[80px] md:h-[80px] rounded-full bg-black object-contain p-2 
-                border-2 border-red-500 mb-4 shadow-[0_0_8px_rgba(255,0,0,0.4)]"
-                />
-                <h3 className="text-lg md:text-xl font-bold mb-3 z-10">
-                  {team.title}
-                </h3>
-                <p className="text-gray-300 text-xs md:text-sm leading-relaxed z-10">
-                  {team.description}
-                </p>
+                  className={`relative h-[320px] md:h-[280px] text-white rounded-3xl p-6 md:p-8 
+                  flex flex-col items-center text-center cursor-pointer 
+                  border border-red-700/60 bg-[#2f1b1b] transition-all duration-700 
+                  hover:scale-105 shadow-[0_0_12px_rgba(255,0,0,0.25)]
+                  ${visible ? "scale-100" : "scale-90"}`}
+                >
+                  <img
+                    src={team.img}
+                    loading="lazy"
+                    alt={team.title}
+                    className="w-20 h-20 md:w-[80px] md:h-[80px] rounded-full bg-black object-contain p-2 
+                    border-2 border-red-500 mb-4 shadow-[0_0_8px_rgba(255,0,0,0.4)]"
+                  />
+                  <h3 className="text-lg md:text-xl font-bold mb-3 z-10">
+                    {team.title}
+                  </h3>
+                  <p className="text-gray-300 text-xs md:text-sm leading-relaxed z-10">
+                    {team.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>

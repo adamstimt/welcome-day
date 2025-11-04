@@ -12,9 +12,8 @@ export default function Hero() {
 
   const h1Full = "Empowering Students\nThrough Technology.";
   const pFull =
-    "Join the Information Technology Community where creativity, innovation come together to build the future and teamwork";
+    "Join the Information Technology Community where creativity, innovation come together to build the future and teamwork.";
 
-  // Intersection Observer to trigger animation when visible
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -36,7 +35,6 @@ export default function Hero() {
     return () => observer.disconnect();
   }, []);
 
-  // Typing effect for h1
   useEffect(() => {
     if (h1Visible) {
       let i = 0;
@@ -48,7 +46,6 @@ export default function Hero() {
     }
   }, [h1Visible]);
 
-  // Typing effect for p (after h1)
   useEffect(() => {
     if (pVisible) {
       let i = 0;
@@ -61,10 +58,7 @@ export default function Hero() {
   }, [pVisible]);
 
   return (
-    <div
-      id="hero" 
-      className="relative h-[100vh] w-full overflow-hidden"
-    >
+    <div id="hero" className="relative min-h-screen w-full overflow-hidden">
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-zoom-slow"
@@ -75,11 +69,20 @@ export default function Hero() {
       <Navbar />
 
       {/* Hero Content */}
-      <div className="relative z-10 flex mt-[150px] flex-col items-center justify-center min-h-[calc(100vh-88px)] px-4 text-center">
+      <div
+        className="
+          relative z-10 flex flex-col items-center justify-center
+          min-h-screen px-6 text-center
+          gap-8 sm:gap-10 md:gap-12
+          pt-32 sm:pt-40 md:pt-48
+        "
+      >
         <h1
           ref={h1Ref}
-          
-          className="text-5xl md:text-7xl font-bold text-gray-300 mb-6 leading-tight whitespace-pre-wrap"
+          className="
+            text-3xl sm:text-4xl md:text-6xl lg:text-7xl
+            font-bold text-gray-300 leading-tight whitespace-pre-wrap
+          "
         >
           {h1Text}
           <span className="animate-blink"></span>
@@ -87,27 +90,37 @@ export default function Hero() {
 
         <p
           ref={pRef}
-          className="text-gray-400 text-lg md:text-2xl max-w-4xl mt-8 mb-12 whitespace-pre-wrap"
+          className="
+            text-gray-400 text-base sm:text-lg md:text-xl lg:text-2xl
+            max-w-[90%] sm:max-w-2xl md:max-w-3xl lg:max-w-4xl
+            mx-auto whitespace-pre-wrap
+          "
         >
           {pText}
         </p>
 
-                <a 
-            href="https://itc-welcome-day-25-26.streamlit.app/" 
-            target="_blank" 
-            rel="noopener noreferrer"
+        <a
+          href="https://itc-welcome-day-25-26.streamlit.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <button
+            className="
+              relative px-8 sm:px-12 md:px-16 py-3 sm:py-4 md:py-5
+              mt-10 sm:mt-16 md:mt-20
+              text-lg sm:text-xl md:text-2xl lg:text-3xl
+              font-bold text-white bg-black border-2 border-red-800 rounded-3xl
+              shadow-[0_0_15px_rgba(255,0,0,0.35),0_0_30px_rgba(255,0,0,0.25)]
+              hover:shadow-[0_0_25px_rgba(255,0,0,0.5),0_0_45px_rgba(255,0,0,0.4)]
+              transition-all duration-300 ease-in-out
+              animate-pop opacity-0 animation-delay-1000
+            "
           >
-            <button
-              className="relative px-16 py-5 mt-24 h-[80px] w-[250px] text-3xl font-bold text-white bg-black border-2 border-red-800 rounded-3xl 
-              shadow-[0_0_15px_rgba(255,0,0,0.35),0_0_30px_rgba(255,0,0,0.25)] 
-              hover:shadow-[0_0_25px_rgba(255,0,0,0.5),0_0_45px_rgba(255,0,0,0.4)] 
-              transition-all duration-300 ease-in-out opacity-0 animate-pop animation-delay-1000"
-            >
-              Join us
-            </button>
-          </a>
-
+            Join us
+          </button>
+        </a>
       </div>
     </div>
   );
 }
+  
