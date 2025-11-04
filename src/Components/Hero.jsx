@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import bghero from "../../public/final.png";
+import bghero from "/public/final.png";
 import Navbar from "./Navbar";
 
 export default function Hero() {

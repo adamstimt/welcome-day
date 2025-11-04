@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import hackathon from "../../public/Hackathon.webp";
-import horizon from "../../public/Horizon.webp";
-import talks from "../../public/Itctalks.webp";
-import content from "../../public/Itccc.webp";
-import itcfam from "../../public/Itctour.webp";
-import itc from "../../public/newlogo.png";
-import exportImg from "../../public/Export.webp";
-import competitive from "../../public/Itcp.webp";
-import sprints from "../../public/Itcsprint.webp";
-import bg from "../../public/Group2085662829.png";
+import hackathon from "/public/Hackathon.webp";
+import horizon from "/public/Horizon.webp";
+import talks from "/public/Itctalks.webp";
+import content from "/public/Itccc.webp";
+import itcfam from "/public/Itctour.webp";
+import itc from "/public/newlogo.png";
+import exportImg from "/public/Export.webp";
+import competitive from "/public/Itcp.webp";
+import sprints from "/public/Itcsprint.webp";
+import bg from "/public/Group2085662829.png";
 
 export default function Events() {
   const sectionRef = useRef(null);

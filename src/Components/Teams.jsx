@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import roboticsImg from "../../public/robotics.png";
-import cyberImg from "../../public/cyber.png";
-import aiImg from "../../public/ai.png";
-import networkImg from "../../public/network.png";
-import webImg from "../../public/web.png";
-import videoImg from "../../public/video.png";
-import bgImg from "../../public/Group2.png";
-import mobile from "../../public/mobile.png";
-import design from "../../public/design.png";
-import game from "../../public/game.png";
-import dd from "../../public/3d.png";
-import markiting from "../../public/marketing.png";
-import trading from "../../public/trading.png";
+import roboticsImg from "/public/robotics.png";
+import cyberImg from "/public/cyber.png";
+import aiImg from "/public/ai.png";
+import networkImg from "/public/network.png";
+import webImg from "/public/web.png";
+import videoImg from "/public/video.png";
+import bgImg from "/public/Group2.png";
+import mobile from "/public/mobile.png";
+import design from "/public/design.png";
+import game from "/public/game.png";
+import dd from "/public/3d.png";
+import markiting from "/public/marketing.png";
+import trading from "/public/trading.png";
 
 const Teams = () => {
   const [currentPage, setCurrentPage] = useState(0);

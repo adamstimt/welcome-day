@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import background from "../../public/newbee.webp";
-import membersImg from "../../public/members.png";
-import eventsImg from "../../public/events.png";
-import teamsImg from "../../public/teams.png";
+import background from "/public/newbee.webp";
+import membersImg from "/public/members.png";
+import eventsImg from "/public/events.png";
+import teamsImg from "/public/teams.png";
 
 const Count = () => {
   const sectionRef = useRef(null);
