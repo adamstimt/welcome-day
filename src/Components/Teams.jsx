@@ -7,7 +7,7 @@ import aiImg from "/public/ai.png";
 import networkImg from "/public/network.png";
 import webImg from "/public/web.png";
 import videoImg from "/public/video.png";
-import bgImg from "/public/Group2.png";
+import bgImg from "/public/Group2.jpg";
 import mobile from "/public/mobile.png";
 import design from "/public/design.png";
 import game from "/public/game.png";

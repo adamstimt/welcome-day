@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import pixelTech from "/public/pixel_technology.png";
 import siMoney from "/public/si_money-fill.png";
 import fluentPeople from "/public/fluent_people-community-16-filled.png.png";
-import bgImg from "/public/Group2.png";
+import bgImg from "/public/Group2.jpg";
 
 const Domain = () => {
   const sectionRef = useRef(null);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import bgImg from "/public/Group2.png";
+import bgImg from "/public/Group2.jpg";
 
 const Time = () => {
   const calculateTimeLeft = () => {
