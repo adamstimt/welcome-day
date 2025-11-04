@@ -93,7 +93,7 @@ export default function Hero() {
         </p>
 
                 <a 
-            href="https://your-link-here.com" 
+            href="https://itc-welcome-day-25-26.streamlit.app/" 
             target="_blank" 
             rel="noopener noreferrer"
           >
