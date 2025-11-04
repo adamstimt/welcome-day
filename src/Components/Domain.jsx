@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import pixelTech from "../assets/pixel_technology.png";
-import siMoney from "../assets/si_money-fill.png";
-import fluentPeople from "../assets/fluent_people-community-16-filled.png.png";
-import bgImg from "../assets/Group 2.png";
+import pixelTech from "../../public/pixel_technology.png";
+import siMoney from "../../public/si_money-fill.png";
+import fluentPeople from "../../public/fluent_people-community-16-filled.png.png";
+import bgImg from "../../public/Group2.png";
 
 const Domain = () => {
   const sectionRef = useRef(null);

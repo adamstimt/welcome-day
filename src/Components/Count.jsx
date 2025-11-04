@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import background from "../assets/newbee.webp";
-import membersImg from "../assets/members.png";
-import eventsImg from "../assets/events.png";
-import teamsImg from "../assets/teams.png";
+import background from "../../public/newbee.webp";
+import membersImg from "../../public/members.png";
+import eventsImg from "../../public/events.png";
+import teamsImg from "../../public/teams.png";
 
 const Count = () => {
   const sectionRef = useRef(null);
@@ -49,6 +49,7 @@ const Count = () => {
           <p className="text-lg sm:text-xl md:text-2xl text-gray-400 font-semibold">
             Members
           </p>
+        
         </div>
 
         {/* CARD 2 */}

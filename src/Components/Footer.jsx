@@ -1,7 +1,7 @@
 import React from "react";
 import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 import { FaDiscord } from "react-icons/fa"; 
-import logo from "../assets/itc-logo.png";
+import logo from "../../public/itc-logo.png";
 
 const Footer = () => {
   return (

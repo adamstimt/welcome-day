@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import miniitc from "../assets/miniitc.png";
+import miniitc from "../../public/miniitc.png";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);

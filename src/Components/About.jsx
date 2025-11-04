@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FaCheckSquare } from "react-icons/fa";
 
-import itc1 from "../assets/itc1.jpg";
-import itc2 from "../assets/itc2.jpg";
-import itc3 from "../assets/itc3.png";
-import bgImg from "../assets/Group 2.png";
+import itc1 from "../../public/itc1.jpg";
+import itc2 from "../../public/itc2.jpg";
+import itc3 from "../../public/itc3.png";
+import bgImg from "../../public/Group2.png";
 
 const About = () => {
   const sectionRef = useRef(null);
