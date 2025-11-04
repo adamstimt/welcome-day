@@ -86,6 +86,7 @@ export default function Events() {
               <div className="absolute inset-0 bg-gradient-to-br from-red-900/10 to-transparent" />
               <img
                 src={event.img}
+                loading="lazy"
                 alt={event.name}
                 className="relative z-10 max-w-[70%] max-h-[90%] object-contain filter brightness-95 transition-all duration-300"
               />

@@ -113,6 +113,7 @@ const Teams = () => {
 
                 <img
                   src={team.img}
+                  loading="lazy"
                   alt={team.title}
                   className="w-20 h-20 md:w-[80px] md:h-[80px] rounded-full bg-black object-contain p-2 
                 border-2 border-red-500 mb-4 shadow-[0_0_8px_rgba(255,0,0,0.4)]"

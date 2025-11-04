@@ -61,6 +61,7 @@ const About = () => {
               <img
                 src={itc1}
                 alt="ITC main"
+                loading="lazy"
                 className={`rounded-2xl border-[3px]  border-red-500 shadow-[0_0_25px_rgba(255,0,0,0.5)] w-[85%] sm:w-[400px] md:w-[450px] object-cover transform transition-all duration-700
                 ${isVisible ? "scale-100 opacity-100" : "scale-90 opacity-0"} group-hover:scale-105`}
               />

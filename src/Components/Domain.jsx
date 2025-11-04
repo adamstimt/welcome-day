@@ -68,6 +68,7 @@ const Domain = () => {
           >
             <img
               src={pixelTech}
+              loading="lazy"
               alt="Tech Department"
               className="w-[55px] h-[63px] mr-[220px] object-contain mb-4"
             />
@@ -95,6 +96,7 @@ const Domain = () => {
           >
             <img
               src={siMoney}
+              loading="lazy"
               alt="Sponsoring Department"
               className="w-[55px] h-[63px] mr-[220px] object-contain mb-4"
             />
@@ -121,6 +123,7 @@ const Domain = () => {
           >
             <img
               src={fluentPeople}
+              loading="lazy"
               alt="Communication Department"
               className="w-[55px] h-[63px] mr-[220px] object-contain mb-4"
             />

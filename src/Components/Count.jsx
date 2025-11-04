@@ -42,6 +42,7 @@ const Count = () => {
         <div className="flex flex-col items-center gap-3">
           <img
             src={membersImg}
+            loading="lazy"
             alt="Members Icon"
             className="w-[90px] sm:w-[100px] md:w-[115px] object-contain mb-2"
           />
@@ -56,6 +57,7 @@ const Count = () => {
         <div className="flex flex-col items-center gap-3">
           <img
             src={eventsImg}
+            loading="lazy"
             alt="Events Icon"
             className="w-[90px] sm:w-[100px]  md:w-[115px] object-contain mb-2"
           />
@@ -69,6 +71,7 @@ const Count = () => {
         <div className="flex flex-col items-center gap-3">
           <img
             src={teamsImg}
+            loading="lazy"
             alt="Teams Icon"
             className="w-[90px] sm:w-[100px] md:w-[115px] object-contain mb-2"
           />

@@ -47,7 +47,12 @@ export default function Navbar() {
         }`}
       >
         {/* ✅ Logo */}
-        <img src={miniitc} alt="ITC logo" className="w-10 h-[60px] object-cover" />
+        <img
+          src={miniitc}
+          loading="lazy"
+          alt="ITC logo"
+          className="w-10 h-[60px] object-cover"
+        />
 
         {/* ✅ Desktop Links */}
         <div className="hidden md:flex items-center space-x-10 text-base lg:text-lg">

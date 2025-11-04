@@ -13,6 +13,7 @@ const Footer = () => {
             <div className="flex justify-center sm:justify-start">
               <img
                 src={logo}
+                loading="lazy"
                 alt="ITC Logo"
                 className="w-[250px] sm:w-[300px] md:w-[400px] lg:w-[450px] lg:-ml-[70px] h-auto mb-4 select-none"
               />

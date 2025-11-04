@@ -78,6 +78,7 @@ export default function Hero() {
       <div className="relative z-10 flex mt-[150px] flex-col items-center justify-center min-h-[calc(100vh-88px)] px-4 text-center">
         <h1
           ref={h1Ref}
+          
           className="text-5xl md:text-7xl font-bold text-gray-300 mb-6 leading-tight whitespace-pre-wrap"
         >
           {h1Text}
