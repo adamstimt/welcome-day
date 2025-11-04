@@ -3,7 +3,7 @@ import { FaCheckSquare } from "react-icons/fa";
 
 import itc1 from "/public/itc1.jpg";
 import itc2 from "/public/itc2.jpg";
-import itc3 from "/public/itc3.png";
+import itc3 from "/public/itc3.jpg";
 import bgImg from "/public/Group2.jpg";
 
 const About = () => {
