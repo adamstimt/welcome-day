@@ -18,5 +18,8 @@
   "framework": "vite",
   "env": {
     "NODE_VERSION": "20.19.0"
-  }
+  },
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ]
 }
