@@ -49,7 +49,7 @@ export default function Navbar() {
           src={miniitc}
           loading="lazy"
           alt="ITC logo"
-          className="w-[2.5rem] h-[2.5rem] object-contain select-none" // 🧩 ثبّتنا الحجم بنسب من rem
+          className="w-[4.5rem] h-[2.5rem] object-cover select-none" 
         />
 
         {/* ✅ Desktop Links */}
