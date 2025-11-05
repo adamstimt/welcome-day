@@ -1,16 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import bghero from "/public/final.png";
+import welcomeImg from "/public/EL-Welcome-Day4.png"; // ✅ Added import
 import Navbar from "./Navbar";
 
 export default function Hero() {
   const h1Ref = useRef(null);
   const pRef = useRef(null);
-  const [h1Visible, setH1Visible] = useState(false);
   const [pVisible, setPVisible] = useState(false);
-  const [h1Text, setH1Text] = useState("");
   const [pText, setPText] = useState("");
 
-  const h1Full = "Empowering Students\nThrough Technology.";
+  // ❌ Removed h1Full (replaced by image)
   const pFull =
     "Join the Information Technology Community where creativity, innovation come together to build the future and teamwork.";
 
@@ -18,9 +17,6 @@ export default function Hero() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.target === h1Ref.current && entry.isIntersecting) {
-            setH1Visible(true);
-          }
           if (entry.target === pRef.current && entry.isIntersecting) {
             setPVisible(true);
           }
@@ -29,22 +25,10 @@ export default function Hero() {
       { threshold: 0.5 }
     );
 
-    if (h1Ref.current) observer.observe(h1Ref.current);
     if (pRef.current) observer.observe(pRef.current);
 
     return () => observer.disconnect();
   }, []);
-
-  useEffect(() => {
-    if (h1Visible) {
-      let i = 0;
-      const interval = setInterval(() => {
-        setH1Text(h1Full.slice(0, i));
-        i++;
-        if (i > h1Full.length) clearInterval(interval);
-      }, 50);
-    }
-  }, [h1Visible]);
 
   useEffect(() => {
     if (pVisible) {
@@ -77,16 +61,13 @@ export default function Hero() {
           pt-32 sm:pt-40 md:pt-48
         "
       >
-        <h1
+        {/* ✅ Replaced h1 text with image */}
+        <img
+          src={welcomeImg}
+          alt="EL Welcome Day"
           ref={h1Ref}
-          className="
-            text-3xl sm:text-4xl md:text-6xl lg:text-7xl
-            font-bold text-gray-300 leading-tight whitespace-pre-wrap
-          "
-        >
-          {h1Text}
-          <span className="animate-blink"></span>
-        </h1>
+          className="w-[80%] sm:w-[70%] md:w-[50%] lg:w-[45%] mx-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.2)]"
+        />
 
         <p
           ref={pRef}
@@ -107,7 +88,7 @@ export default function Hero() {
           <button
             className="
               relative px-8 sm:px-12 md:px-16 py-3 sm:py-4 md:py-5
-              mt-10 sm:mt-16 md:mt-20
+              mt-10 sm:mt-16 md:mt-8
               text-lg sm:text-xl md:text-2xl lg:text-3xl
               font-bold text-white bg-black border-2 border-red-800 rounded-3xl
               shadow-[0_0_15px_rgba(255,0,0,0.35),0_0_30px_rgba(255,0,0,0.25)]
@@ -123,4 +104,3 @@ export default function Hero() {
     </div>
   );
 }
-  
