@@ -17,9 +17,9 @@ export default function Navbar() {
 
   const links = [
     { name: "Home", href: "#hero" },
+      { name: "Domains", href: "#domains" },
+      { name: "Teams", href: "#teams" },
     { name: "Events", href: "#events" },
-    { name: "Domains", href: "#domains" },
-    { name: "Teams", href: "#teams" },
     { name: "About us", href: "#about" },
   ];
 
