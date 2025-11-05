@@ -32,10 +32,10 @@ const Footer = () => {
             <h3 className="text-[1.6rem] font-bold mb-[2vh]">Explore</h3>
             <ul className="space-y-[1.5vh]">
               {[
+                 { label: "Departments", href: "#domains" },
+                 { label: "Our Teams", href: "#teams" },
+                 { label: "Events", href: "#events" },
                 { label: "About Us", href: "#about" },
-                { label: "Departments", href: "#domains" },
-                { label: "Our Teams", href: "#teams" },
-                { label: "Events", href: "#events" },
               ].map((item) => (
                 <li key={item.label}>
                   <a
