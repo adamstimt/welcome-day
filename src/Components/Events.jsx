@@ -100,7 +100,7 @@ export default function Events() {
         {`
           @keyframes scroll {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            100% { transform: translateX(-160%); }
           }
 
           .scroll-track {
