@@ -1,3 +1,5 @@
+// About.jsx — same visuals, fixed mobile reveal gap
+
 import React, { useEffect, useRef, useState } from "react";
 import { FaCheckSquare } from "react-icons/fa";
 
@@ -6,22 +8,62 @@ import itc2 from "/public/itc2.jpg";
 import itc3 from "/public/itc3.jpg";
 import bgImg from "/public/Group2.jpg";
 
-const About = () => {
-  const sectionRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+/* ===== Early-trigger reveal (inline) =====
+   - Starts a bit earlier on small screens to avoid the blank gap
+   - Runs once; respects prefers-reduced-motion
+*/
+function useReveal({
+  threshold = 0.06,
+  rootMargin = "0px 0px -25% 0px",
+  mobile = { threshold: 0.02, rootMargin: "0px 0px -45% 0px" },
+  once = true,
+} = {}) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      setVisible(true);
+      return;
+    }
+
+    const el = ref.current;
+    if (!el) return;
+
+    const isMobile =
+      typeof window !== "undefined" &&
+      window.matchMedia("(max-width: 640px)").matches;
+
+    const io = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setIsVisible(true);
-        });
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setVisible(true);
+            if (once) io.disconnect();
+            break;
+          }
+        }
       },
-      { threshold: 0.3 }
+      isMobile
+        ? {
+            threshold: mobile.threshold ?? 0.02,
+            rootMargin: mobile.rootMargin ?? "0px 0px -45% 0px",
+          }
+        : { threshold, rootMargin }
     );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, [threshold, rootMargin, mobile.threshold, mobile.rootMargin, once]);
+
+  return { ref, visible };
+}
+
+const About = () => {
+  const { ref: sectionRef, visible } = useReveal(); // <-- use improved reveal
 
   return (
     <section
@@ -34,112 +76,126 @@ const About = () => {
         backgroundPosition: "center",
       }}
     >
-      {/* Overlay */}
       <div className="absolute inset-0 bg-black/50" />
 
-      {/* Content */}
+      {/* wrapper: smaller initial offset + GPU transform to avoid visible gap */}
       <div
-        className={`relative z-10 w-full max-w-7xl flex flex-col items-center text-center transition-all duration-[1200ms] ease-out ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        }`}
+        className={`relative z-10 w-full max-w-7xl flex flex-col items-center text-center
+          will-change-transform transform-gpu transition-all duration-[900ms] ease-out
+          ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}
       >
-        {/* Title */}
         <h2
-          className={`text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-12 transition-all duration-[1200ms] ease-out delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
+          className={`text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-12
+            will-change-transform transform-gpu transition-all duration-[900ms] ease-out delay-100
+            ${
+              visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+            }`}
         >
           About Us
         </h2>
 
-        {/* Main Content */}
         <div
-          className={`flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 w-full transition-all duration-[1200ms] ease-out delay-300 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
+          className={`flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 w-full
+            will-change-transform transform-gpu transition-all duration-[900ms] ease-out delay-150
+            ${
+              visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+            }`}
         >
-          {/* Image Side */}
-          <div className="relative w-full lg:w-1/2 flex justify-center items-center">
-            <div className="relative w-[85%] sm:w-[400px] md:w-[450px]">
-              {/* main image */}
+          {/* IMAGE COLUMN */}
+          <div className="relative w-full lg:w-1/2 flex justify-center items-center mb-24 sm:mb-28 md:mb-44 lg:mb-0 max-[646px]:mb-20">
+            <div className="relative w-[85%] sm:w-[400px] md:w-[480px] lg:w-[520px]">
+              {/* Main */}
               <img
                 src={itc1}
                 alt="ITC main"
-                className={`rounded-2xl border-[3px] border-red-500 shadow-[0_0_25px_rgba(255,0,0,0.5)] w-full object-cover transition-all duration-700 ${
-                  isVisible ? "scale-100 opacity-100" : "scale-90 opacity-0"
-                }`}
+                className={`rounded-2xl border-[3px] border-red-500 shadow-[0_0_25px_rgba(255,0,0,0.5)] w-full object-cover
+                  will-change-transform transform-gpu transition-all duration-700
+                  ${visible ? "scale-100 opacity-100" : "scale-95 opacity-0"}`}
               />
 
-              {/* top-left overlapped image */}
-              <img
-                src={itc2}
-                alt="ITC secondary"
-                className={`absolute top-[110%] -left-8 sm:top-[105%] sm:-left-12 w-[45%] sm:w-[180px] md:w-[200px] rounded-xl border-[2px] border-red-500 shadow-[0_0_20px_rgba(255,0,0,0.4)] transition-all duration-700 delay-200 ${
-                  isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-5"
-                }`}
-              />
-
-              {/* bottom-right image */}
+              {/* Small bottom-right */}
               <img
                 src={itc3}
                 alt="ITC third"
-                className={`absolute -bottom-14 -right-6 sm:-bottom-16 sm:-right-10 w-[55%] sm:w-[220px] md:w-[250px] rounded-xl border-[2px] border-red-500 shadow-[0_0_20px_rgba(255,0,0,0.4)] transition-all duration-700 delay-300 ${
-                  isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-5"
-                }`}
+                className={`absolute -bottom-14 -right-6 sm:-bottom-16 sm:-right-8 md:-bottom-10 md:-right-6 lg:-bottom-16 lg:-right-10 max-[646px]:-right-4
+                  w-[55%] sm:w-[220px] md:w-[235px] lg:w-[250px] rounded-xl border-[2px] border-red-500 shadow-[0_0_20px_rgba(255,0,0,0.4)]
+                  will-change-transform transform-gpu transition-all duration-700 delay-200 max-[646px]:-bottom-2
+                  ${
+                    visible
+                      ? "opacity-100 translate-x-0"
+                      : "opacity-0 translate-x-2"
+                  }`}
+              />
+
+              {/* Small lower-left */}
+              <img
+                src={itc2}
+                alt="ITC secondary"
+                className={`absolute top-[110%] -left-8 sm:top-[104%] sm:-left-10 md:top-[94%] md:-left-8 lg:top-[105%] lg:-left-12 max-[646px]:-left-4
+                  w-[45%] sm:w-[180px] md:w-[190px] lg:w-[200px] max-[646px]:w-[200px] rounded-xl border-[2px] border-red-500 shadow-[0_0_20px_rgba(255,0,0,0.4)]
+                  will-change-transform transform-gpu transition-all duration-700 delay-150 max-[646px]:top-[94%]
+                  ${
+                    visible
+                      ? "opacity-100 translate-x-0"
+                      : "opacity-0 -translate-x-2"
+                  }`}
               />
             </div>
           </div>
 
-          {/* Text Side */}
-         <div
-  className={`w-full lg:w-1/2 flex flex-col gap-6 text-left text-white transition-all duration-[1200ms] ease-out delay-500 ${
-    isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
-  } mt-24 sm:mt-0`}  
->
-  <p className="font-semibold leading-relaxed text-base sm:text-lg md:text-xl text-gray-200">
-    ITC is a vibrant student-led club dedicated to exploring the world
-    of technology and innovation. We bring together passionate
-    learners from different fields to learn, create, and collaborate
-    on projects that make an impact.
-  </p>
+          {/* TEXT COLUMN */}
+          <div
+            className={`w-full lg:w-1/2 flex flex-col gap-6 text-left text-white
+              will-change-transform transform-gpu transition-all duration-[900ms] ease-out delay-200 max-[646px]:mt-2
+              ${
+                visible
+                  ? "opacity-100 translate-x-0"
+                  : "opacity-0 translate-x-2"
+              }`}
+          >
+            <p className="font-semibold leading-relaxed text-base sm:text-lg md:text-xl text-gray-200">
+              ITC is a vibrant student-led club dedicated to exploring the world
+              of technology and innovation. We bring together passionate
+              learners from different fields to learn, create, and collaborate
+              on projects that make an impact.
+            </p>
 
-  <div>
-    <h3 className="text-lg md:text-xl font-bold mb-6 text-red-600">
-      What We Do
-    </h3>
-    <ul className="space-y-4 text-[15px] sm:text-[16px] font-[400] text-gray-300">
-      <li className="flex items-start gap-2">
-        <FaCheckSquare
-          className="text-red-600 mt-1 flex-shrink-0"
-          size={18}
-        />
-        Encouraging problem solving through engaging tech challenges.
-      </li>
-      <li className="flex items-start gap-2">
-        <FaCheckSquare
-          className="text-red-600 mt-1 flex-shrink-0"
-          size={18}
-        />
-        Building strong partnerships within and beyond our university.
-      </li>
-      <li className="flex items-start gap-2">
-        <FaCheckSquare
-          className="text-red-600 mt-1 flex-shrink-0"
-          size={18}
-        />
-        Hosting workshops and sessions to develop practical skills.
-      </li>
-      <li className="flex items-start gap-2">
-        <FaCheckSquare
-          className="text-red-600 mt-1 flex-shrink-0"
-          size={18}
-        />
-        Creating opportunities for growth among members.
-      </li>
-    </ul>
-  </div>
-</div>
-
+            <div>
+              <h3 className="text-lg md:text-xl font-bold mb-6 text-red-600">
+                What We Do
+              </h3>
+              <ul className="space-y-4 text-[15px] sm:text-[16px] font-[400] text-gray-300">
+                <li className="flex items-start gap-2">
+                  <FaCheckSquare
+                    className="text-red-600 mt-1 flex-shrink-0"
+                    size={18}
+                  />
+                  Encouraging problem solving through engaging tech challenges.
+                </li>
+                <li className="flex items-start gap-2">
+                  <FaCheckSquare
+                    className="text-red-600 mt-1 flex-shrink-0"
+                    size={18}
+                  />
+                  Building strong partnerships within and beyond our university.
+                </li>
+                <li className="flex items-start gap-2">
+                  <FaCheckSquare
+                    className="text-red-600 mt-1 flex-shrink-0"
+                    size={18}
+                  />
+                  Hosting workshops and sessions to develop practical skills.
+                </li>
+                <li className="flex items-start gap-2">
+                  <FaCheckSquare
+                    className="text-red-600 mt-1 flex-shrink-0"
+                    size={18}
+                  />
+                  Creating opportunities for growth among members.
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>
