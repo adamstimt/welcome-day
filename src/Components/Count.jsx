@@ -4,10 +4,35 @@ import membersImg from "/public/members.png";
 import eventsImg from "/public/events.png";
 import teamsImg from "/public/teams.png";
 
+/* === Add: tiny count-up hook (no libs) === */
+function useCountUp(when, to, { duration = 1200 } = {}) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!when) return; // only start when visible
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (reduce) {
+      setVal(to);
+      return;
+    }
+
+    let raf, start;
+    const step = (t) => {
+      if (!start) start = t;
+      const p = Math.min(1, (t - start) / duration);
+      setVal(Math.floor(p * to));
+      if (p < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [when, to, duration]);
+  return val;
+}
+
 const Count = () => {
   const sectionRef = useRef(null);
   const [visible, setVisible] = useState(false);
-
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -21,6 +46,11 @@ const Count = () => {
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
+
+  /* === Add: use counters === */
+  const members = useCountUp(visible, 300, { duration: 1100 });
+  const events = useCountUp(visible, 10, { duration: 1100 });
+  const teams = useCountUp(visible, 15, { duration: 1100 });
 
   return (
     <section
@@ -36,7 +66,9 @@ const Count = () => {
       {/* Content */}
       <div
         className={`relative z-10 flex flex-col md:flex-row items-center justify-center gap-12 sm:gap-20 md:gap-20 lg:gap-[370px] text-center px-6 transition-all duration-1000 ease-out
-          ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+          ${
+            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
       >
         {/* CARD 1 */}
         <div className="flex flex-col items-center gap-3">
@@ -46,11 +78,12 @@ const Count = () => {
             alt="Members Icon"
             className="w-[90px] sm:w-[100px] md:w-[115px] object-contain mb-2"
           />
-          <h3 className="text-3xl sm:text-4xl font-bold text-white">+300</h3>
+          <h3 className="text-3xl sm:text-4xl font-bold text-white">
+            +{members}
+          </h3>
           <p className="text-lg sm:text-xl md:text-2xl text-gray-400 font-semibold">
             Members
           </p>
-        
         </div>
 
         {/* CARD 2 */}
@@ -61,7 +94,9 @@ const Count = () => {
             alt="Events Icon"
             className="w-[90px] sm:w-[100px]  md:w-[115px] object-contain mb-2"
           />
-          <h3 className="text-3xl sm:text-4xl font-bold text-white">+10</h3>
+          <h3 className="text-3xl sm:text-4xl font-bold text-white">
+            +{events}
+          </h3>
           <p className="text-lg sm:text-xl md:text-2xl text-gray-400 font-semibold">
             Events / year
           </p>
@@ -75,7 +110,9 @@ const Count = () => {
             alt="Teams Icon"
             className="w-[90px] sm:w-[100px] md:w-[115px] object-contain mb-2"
           />
-          <h3 className="text-3xl sm:text-4xl font-bold text-white">+15</h3>
+          <h3 className="text-3xl sm:text-4xl font-bold text-white">
+            +{teams}
+          </h3>
           <p className="text-lg sm:text-xl md:text-2xl text-gray-400 font-semibold">
             Teams
           </p>
