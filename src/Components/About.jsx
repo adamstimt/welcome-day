@@ -1,69 +1,13 @@
-// About.jsx — same visuals, fixed mobile reveal gap
-
-import React, { useEffect, useRef, useState } from "react";
 import { FaCheckSquare } from "react-icons/fa";
 
 import itc1 from "/public/itc1.jpg";
 import itc2 from "/public/itc2.jpg";
 import itc3 from "/public/itc3.jpg";
 import bgImg from "/public/Group2.jpg";
-
-/* ===== Early-trigger reveal (inline) =====
-   - Starts a bit earlier on small screens to avoid the blank gap
-   - Runs once; respects prefers-reduced-motion
-*/
-function useReveal({
-  threshold = 0.06,
-  rootMargin = "0px 0px -25% 0px",
-  mobile = { threshold: 0.02, rootMargin: "0px 0px -45% 0px" },
-  once = true,
-} = {}) {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const reduce =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setVisible(true);
-      return;
-    }
-
-    const el = ref.current;
-    if (!el) return;
-
-    const isMobile =
-      typeof window !== "undefined" &&
-      window.matchMedia("(max-width: 640px)").matches;
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            setVisible(true);
-            if (once) io.disconnect();
-            break;
-          }
-        }
-      },
-      isMobile
-        ? {
-            threshold: mobile.threshold ?? 0.02,
-            rootMargin: mobile.rootMargin ?? "0px 0px -45% 0px",
-          }
-        : { threshold, rootMargin }
-    );
-
-    io.observe(el);
-    return () => io.disconnect();
-  }, [threshold, rootMargin, mobile.threshold, mobile.rootMargin, once]);
-
-  return { ref, visible };
-}
+import useRevealReplay from "../hooks/useRevealReplay";
 
 const About = () => {
-  const { ref: sectionRef, visible } = useReveal(); // <-- use improved reveal
+  const { ref: sectionRef, inView } = useRevealReplay();
 
   return (
     <section
@@ -78,17 +22,16 @@ const About = () => {
     >
       <div className="absolute inset-0 bg-black/50" />
 
-      {/* wrapper: smaller initial offset + GPU transform to avoid visible gap */}
       <div
         className={`relative z-10 w-full max-w-7xl flex flex-col items-center text-center
           will-change-transform transform-gpu transition-all duration-[900ms] ease-out
-          ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}
+          ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}
       >
         <h2
           className={`text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-12
             will-change-transform transform-gpu transition-all duration-[900ms] ease-out delay-100
             ${
-              visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+              inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
             }`}
         >
           About Us
@@ -98,7 +41,7 @@ const About = () => {
           className={`flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 w-full
             will-change-transform transform-gpu transition-all duration-[900ms] ease-out delay-150
             ${
-              visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+              inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
             }`}
         >
           {/* IMAGE COLUMN */}
@@ -110,7 +53,7 @@ const About = () => {
                 alt="ITC main"
                 className={`rounded-2xl border-[3px] border-red-500 shadow-[0_0_25px_rgba(255,0,0,0.5)] w-full object-cover
                   will-change-transform transform-gpu transition-all duration-700
-                  ${visible ? "scale-100 opacity-100" : "scale-95 opacity-0"}`}
+                  ${inView ? "scale-100 opacity-100" : "scale-95 opacity-0"}`}
               />
 
               {/* Small bottom-right */}
@@ -121,7 +64,7 @@ const About = () => {
                   w-[55%] sm:w-[220px] md:w-[235px] lg:w-[250px] rounded-xl border-[2px] border-red-500 shadow-[0_0_20px_rgba(255,0,0,0.4)]
                   will-change-transform transform-gpu transition-all duration-700 delay-200 max-[646px]:-bottom-2
                   ${
-                    visible
+                    inView
                       ? "opacity-100 translate-x-0"
                       : "opacity-0 translate-x-2"
                   }`}
@@ -135,7 +78,7 @@ const About = () => {
                   w-[45%] sm:w-[180px] md:w-[190px] lg:w-[200px] max-[646px]:w-[200px] rounded-xl border-[2px] border-red-500 shadow-[0_0_20px_rgba(255,0,0,0.4)]
                   will-change-transform transform-gpu transition-all duration-700 delay-150 max-[646px]:top-[94%]
                   ${
-                    visible
+                    inView
                       ? "opacity-100 translate-x-0"
                       : "opacity-0 -translate-x-2"
                   }`}
@@ -148,9 +91,7 @@ const About = () => {
             className={`w-full lg:w-1/2 flex flex-col gap-6 text-left text-white
               will-change-transform transform-gpu transition-all duration-[900ms] ease-out delay-200 max-[646px]:mt-2
               ${
-                visible
-                  ? "opacity-100 translate-x-0"
-                  : "opacity-0 translate-x-2"
+                inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
               }`}
           >
             <p className="font-semibold leading-relaxed text-base sm:text-lg md:text-xl text-gray-200">
