@@ -1,64 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
-/* ===== Early-trigger reveal (inline) =====
-   - Triggers earlier on small screens to avoid the blank gap
-   - Runs once; no flicker when scrolling back
-   - Honors prefers-reduced-motion
-*/
-function useReveal({
-  threshold = 0.06,
-  rootMargin = "0px 0px -25% 0px",
-  mobile = { threshold: 0.02, rootMargin: "0px 0px -45% 0px" },
-  once = true,
-} = {}) {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const reduce =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setVisible(true);
-      return;
-    }
-
-    const el = ref.current;
-    if (!el) return;
-
-    const isMobile =
-      typeof window !== "undefined" &&
-      window.matchMedia("(max-width: 640px)").matches;
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            setVisible(true);
-            if (once) io.disconnect();
-            break;
-          }
-        }
-      },
-      isMobile
-        ? {
-            threshold: mobile.threshold ?? 0.02,
-            rootMargin: mobile.rootMargin ?? "0px 0px -45% 0px",
-          }
-        : { threshold, rootMargin }
-    );
-
-    io.observe(el);
-    return () => io.disconnect();
-  }, [threshold, rootMargin, mobile.threshold, mobile.rootMargin, once]);
-
-  return { ref, visible };
-}
+import useRevealReplay from "../hooks/useRevealReplay";
 
 const Teams = () => {
   const [currentPage, setCurrentPage] = useState(0);
-  const { ref: sectionRef, visible } = useReveal(); // <-- use improved reveal
+  const { ref: sectionRef, inView } = useRevealReplay(); // <-- use improved reveal
 
   const teamsData = [
     {
@@ -160,7 +106,7 @@ const Teams = () => {
         {/* Header — smaller initial offset & GPU transform to avoid visible gap */}
         <div
           className={`text-center mb-12 will-change-transform transform-gpu transition-all duration-700 ease-out ${
-            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+            inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
           }`}
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-white">
@@ -185,7 +131,7 @@ const Teams = () => {
 
           <div
             className={`flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 will-change-transform transform-gpu transition-opacity duration-700 ${
-              visible ? "opacity-100" : "opacity-0"
+              inView ? "opacity-100" : "opacity-0"
             }`}
           >
             {getCurrentCards().map((team, i) => (
@@ -196,7 +142,7 @@ const Teams = () => {
                   border border-red-700/60 bg-[#2f1b1b] transition-transform duration-700 
                   hover:scale-105 shadow-[0_0_12px_rgba(255,0,0,0.25)] transform-gpu
                   ${
-                    visible
+                    inView
                       ? "opacity-100 translate-y-0 scale-100"
                       : "opacity-0 translate-y-2 scale-95"
                   }`}

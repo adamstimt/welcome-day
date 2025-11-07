@@ -4,11 +4,45 @@ import membersImg from "/public/members.png";
 import eventsImg from "/public/events.png";
 import teamsImg from "/public/teams.png";
 
-/* === Add: tiny count-up hook (no libs) === */
+function useInViewReplay(
+  ref,
+  { threshold = 0.3, root = null, rootMargin = "0px" } = {}
+) {
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setInView(true);
+          else setInView(false);
+        }
+      },
+      { threshold, root, rootMargin }
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, [ref, threshold, root, rootMargin]);
+
+  return inView;
+}
+
 function useCountUp(when, to, { duration = 1200 } = {}) {
   const [val, setVal] = useState(0);
+  const rafRef = useRef(null);
+
   useEffect(() => {
-    if (!when) return; // only start when visible
+    // On leave: reset immediately so it'll replay next time
+    if (!when) {
+      setVal(0);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      return;
+    }
+
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -17,37 +51,27 @@ function useCountUp(when, to, { duration = 1200 } = {}) {
       return;
     }
 
-    let raf, start;
+    let start;
     const step = (t) => {
-      if (!start) start = t;
+      if (start == null) start = t;
       const p = Math.min(1, (t - start) / duration);
       setVal(Math.floor(p * to));
-      if (p < 1) raf = requestAnimationFrame(step);
+      if (p < 1) rafRef.current = requestAnimationFrame(step);
     };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
+
+    rafRef.current = requestAnimationFrame(step);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
   }, [when, to, duration]);
+
   return val;
 }
 
 const Count = () => {
   const sectionRef = useRef(null);
-  const [visible, setVisible] = useState(false);
+  const visible = useInViewReplay(sectionRef, { threshold: 0.3 });
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setVisible(true);
-        });
-      },
-      { threshold: 0.3 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  /* === Add: use counters === */
   const members = useCountUp(visible, 300, { duration: 1100 });
   const events = useCountUp(visible, 10, { duration: 1100 });
   const teams = useCountUp(visible, 15, { duration: 1100 });
@@ -56,21 +80,16 @@ const Count = () => {
     <section
       ref={sectionRef}
       className="relative w-full bg-center bg-cover bg-no-repeat py-24 sm:py-32 text-white overflow-hidden"
-      style={{
-        backgroundImage: `url(${background})`,
-      }}
+      style={{ backgroundImage: `url(${background})` }}
+      aria-label="ITC Counters"
     >
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/80"></div>
+      <div className="absolute inset-0 bg-black/80" />
 
-      {/* Content */}
       <div
-        className={`relative z-10 flex flex-col md:flex-row items-center justify-center gap-12 sm:gap-20 md:gap-20 lg:gap-[370px] text-center px-6 transition-all duration-1000 ease-out
-          ${
-            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
+        className={`relative z-10 flex flex-col md:flex-row items-center justify-center gap-12 sm:gap-20 md:gap-20 lg:gap-[370px] text-center px-6 transition-all duration-700 ease-out
+        ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
       >
-        {/* CARD 1 */}
         <div className="flex flex-col items-center gap-3">
           <img
             src={membersImg}
@@ -86,7 +105,6 @@ const Count = () => {
           </p>
         </div>
 
-        {/* CARD 2 */}
         <div className="flex flex-col items-center gap-3">
           <img
             src={eventsImg}

@@ -1,68 +1,15 @@
-// Domain.jsx — same visuals, smaller/cleaner text sizes
-
-import React, { useEffect, useRef, useState } from "react";
 import pixelTech from "/public/pixel_technology.png";
 import siMoney from "/public/si_money-fill.png";
 import fluentPeople from "/public/fluent_people-community-16-filled.png.png";
 import bgImg from "/public/Group2.jpg";
-
-/* Early-trigger reveal (mobile gap fix) */
-function useReveal({
-  threshold = 0.06,
-  rootMargin = "0px 0px -25% 0px",
-  mobile = { threshold: 0.02, rootMargin: "0px 0px -45% 0px" },
-  once = true,
-} = {}) {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const reduce =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setVisible(true);
-      return;
-    }
-
-    const el = ref.current;
-    if (!el) return;
-
-    const isMobile =
-      typeof window !== "undefined" &&
-      window.matchMedia("(max-width: 640px)").matches;
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            setVisible(true);
-            if (once) io.disconnect();
-            break;
-          }
-        }
-      },
-      isMobile
-        ? {
-            threshold: mobile.threshold ?? 0.02,
-            rootMargin: mobile.rootMargin ?? "0px 0px -45% 0px",
-          }
-        : { threshold, rootMargin }
-    );
-
-    io.observe(el);
-    return () => io.disconnect();
-  }, [threshold, rootMargin, mobile.threshold, mobile.rootMargin, once]);
-
-  return { ref, visible };
-}
+import useRevealReplay from "../hooks/useRevealReplay";
 
 export default function Domain() {
-  const { ref, visible } = useReveal();
+  const { ref: sectionRef, inView } = useRevealReplay();
   const appear =
     "will-change-transform transform-gpu transition-all duration-700 " +
-    (visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2");
+    (inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2");
 
-  // Slightly tighter padding to match smaller text
   const cardBase =
     "bg-[rgba(124,115,108,0.25)] border border-red-500 rounded-2xl " +
     "p-5 sm:p-6 md:p-7 shadow-[0_0_12px_2px_rgba(255,0,0,0.45)] " +
@@ -72,23 +19,20 @@ export default function Domain() {
 
   return (
     <section
-      ref={ref}
+      ref={sectionRef}
       id="domains"
       className="relative bg-[#0a0a0a] text-white py-16 sm:py-18 md:py-20 px-5 sm:px-6 bg-cover bg-center bg-no-repeat overflow-hidden"
       style={{ backgroundImage: `url(${bgImg})` }}
     >
-      {/* overlay */}
       <div className="absolute inset-0 bg-black/50" aria-hidden />
 
       <div className="relative max-w-6xl mx-auto text-center">
-        {/* Heading smaller on mobile, comfortable on desktop */}
         <h1
           className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-4 sm:mb-5 md:mb-6 ${appear}`}
         >
           Our Domains
         </h1>
 
-        {/* Lead paragraph scaled down; narrower line-height on mobile */}
         <p
           className={`text-gray-300 mx-auto max-w-4xl ${appear}
                       text-sm sm:text-base md:text-lg leading-relaxed sm:leading-relaxed md:leading-8 mb-8 sm:mb-10 md:mb-12`}
@@ -118,10 +62,9 @@ export default function Domain() {
             </p>
           </div>
 
-          {/* Sponsoring */}
           <div
             className={`${cardBase} ${appear}`}
-            style={{ transitionDelay: visible ? "80ms" : "0ms" }}
+            style={{ transitionDelay: inView ? "80ms" : "0ms" }}
           >
             <img
               src={siMoney}
@@ -139,10 +82,9 @@ export default function Domain() {
             </p>
           </div>
 
-          {/* Communication */}
           <div
             className={`${cardBase} ${appear}`}
-            style={{ transitionDelay: visible ? "160ms" : "0ms" }}
+            style={{ transitionDelay: inView ? "160ms" : "0ms" }}
           >
             <img
               src={fluentPeople}
