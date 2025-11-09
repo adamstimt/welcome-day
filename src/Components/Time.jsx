@@ -4,7 +4,7 @@ import useRevealReplay from "../hooks/useRevealReplay";
 
 export default function Time() {
   // ===== countdown =====
-  const target = new Date("2025-11-11T00:00:00").getTime();
+  const target = new Date("2025-11-11T00:00:00").getTime();  
   const compute = () => {
     const diff = target - Date.now();
     return {
