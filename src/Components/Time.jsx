@@ -4,7 +4,7 @@ import useRevealReplay from "../hooks/useRevealReplay";
 
 export default function Time() {
   // ===== countdown =====
-  const target = new Date("2025-11-09T00:00:00").getTime();
+  const target = new Date("2025-11-12T00:00:00").getTime();
   const compute = () => {
     const diff = target - Date.now();
     return {
@@ -111,11 +111,11 @@ export default function Time() {
             isFinalDay ? "title-lite" : ""
           }`}
         >
-          The Journey Begins Soon
+         The Journey Ends in
         </h2>
 
         <p className="text-gray-300 text-sm sm:text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
-          Mark your calendars — our Welcome Day is approaching. A new chapter of
+         Mark your calendars — our Welcome Day is currently here. A new chapter of
           creativity, innovation, and collaboration is about to begin.
         </p>
 
